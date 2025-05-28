@@ -5,9 +5,10 @@ import com.arthurpph.bedwars.game.Game;
 import com.arthurpph.bedwars.game.GameManager;
 import com.arthurpph.bedwars.game.state.GameState;
 import com.arthurpph.bedwars.game.state.impl.StartingGameState;
-import com.arthurpph.bedwars.wizard.WizardContext;
+import com.arthurpph.bedwars.wizard.context.WizardContext;
 import com.arthurpph.bedwars.wizard.WizardManager;
 import com.arthurpph.bedwars.wizard.loader.impl.DefaultWizardLoader;
+import me.devnatan.inventoryframework.ViewFrame;
 import me.saiintbrisson.minecraft.command.annotation.Command;
 import me.saiintbrisson.minecraft.command.command.Context;
 import me.saiintbrisson.minecraft.command.target.CommandTarget;
@@ -18,13 +19,15 @@ import java.util.Optional;
 
 public class BedwarsCommand {
     private final GameManager gameManager;
-    private final WizardManager<WizardContext> wizardManager;
+    private final WizardManager wizardManager;
     private final ConfigurationManager configManager;
+    private final ViewFrame viewFrame;
 
-    public BedwarsCommand(GameManager gameManager, WizardManager<WizardContext> wizardManager, ConfigurationManager configManager) {
+    public BedwarsCommand(GameManager gameManager, WizardManager wizardManager, ConfigurationManager configManager, ViewFrame viewFrame) {
         this.gameManager = gameManager;
         this.wizardManager = wizardManager;
         this.configManager = configManager;
+        this.viewFrame = viewFrame;
     }
 
     @Command(
@@ -37,7 +40,7 @@ public class BedwarsCommand {
         final Game newGame = gameManager.createNewGame("bedwarsone");
         gameManager.addPlayer(newGame.getUniqueId(), player);
         player.teleport(newGame.getGameWorld().getWorld().getSpawnLocation());
-        new DefaultWizardLoader(wizardManager, configManager, player).load();
+        new DefaultWizardLoader(wizardManager, configManager, viewFrame, player).load();
     }
 
     @Command(

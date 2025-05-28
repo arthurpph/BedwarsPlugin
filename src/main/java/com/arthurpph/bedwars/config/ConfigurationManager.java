@@ -2,6 +2,7 @@ package com.arthurpph.bedwars.config;
 
 import com.arthurpph.bedwars.Bedwars;
 import com.arthurpph.bedwars.generator.Generator;
+import com.arthurpph.bedwars.team.TeamColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
@@ -19,6 +20,8 @@ public class ConfigurationManager {
         setupSection(configuration, "maps");
         setupSection(configuration, "maps." + mapName);
         this.mapSection = configuration.getConfigurationSection("maps." + mapName);
+        setupIslands();
+        plugin.saveConfig();
     }
 
     public void setGenerator(Generator generator) {
@@ -26,8 +29,8 @@ public class ConfigurationManager {
         final ConfigurationSection generatorsSection = mapSection.getConfigurationSection("generators");
         final String generatorId = UUID.randomUUID().toString();
         final ConfigurationSection generatorSection = generatorsSection.createSection(generatorId);
-        generatorSection.set("type", generator.getGeneratorType().toString());
-        saveLocation(generatorSection, "location", generator.getLocation());
+        generatorSection.set("type", generator.generatorType().toString());
+        saveLocation(generatorSection, "location", generator.location());
         plugin.saveConfig();
     }
 
@@ -42,6 +45,12 @@ public class ConfigurationManager {
     private void setupSection(ConfigurationSection section, String path) {
         if(!section.isConfigurationSection(path)) {
             section.createSection(path);
+        }
+    }
+
+    private void setupIslands() {
+        for(TeamColor color : TeamColor.values()) {
+            setupSection(mapSection, color.name());
         }
     }
 }

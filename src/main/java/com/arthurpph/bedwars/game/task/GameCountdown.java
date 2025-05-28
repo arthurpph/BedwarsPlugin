@@ -1,6 +1,5 @@
 package com.arthurpph.bedwars.game.task;
 
-import com.arthurpph.bedwars.Bedwars;
 import com.arthurpph.bedwars.game.Game;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

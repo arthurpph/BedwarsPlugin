@@ -2,7 +2,6 @@ package com.arthurpph.bedwars.game;
 
 import com.arthurpph.bedwars.Bedwars;
 import com.arthurpph.bedwars.game.state.GameState;
-import com.arthurpph.bedwars.game.state.impl.StartingGameState;
 import com.arthurpph.bedwars.util.WorldUtils;
 import org.bukkit.entity.Player;
 

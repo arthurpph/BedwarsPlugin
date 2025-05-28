@@ -28,6 +28,7 @@ dependencies {
     implementation("com.saicone.rtag:rtag:1.5.10")
     implementation("com.saicone.rtag:rtag-item:1.5.10")
     compileOnly("org.spigotmc:spigot-api:1.21.4-R0.1-SNAPSHOT")
+    compileOnly("me.devnatan:inventory-framework-platform-bukkit:3.3.9")
 }
 
 def targetJavaVersion = 21
