@@ -6,6 +6,7 @@ import com.arthurpph.bedwars.wizard.loader.WizardLoader;
 import com.arthurpph.bedwars.wizard.WizardManager;
 import com.arthurpph.bedwars.wizard.selector.WizardSelector;
 import com.arthurpph.bedwars.generator.GeneratorType;
+import com.arthurpph.bedwars.wizard.selector.impl.ExitWizardSelector;
 import com.arthurpph.bedwars.wizard.selector.impl.GeneratorWizardSelector;
 import com.arthurpph.bedwars.wizard.selector.impl.SelectIslandWizardSelector;
 import me.devnatan.inventoryframework.ViewFrame;
@@ -16,27 +17,26 @@ import org.bukkit.inventory.Inventory;
 
 import java.util.List;
 
-public class DefaultWizardLoader implements WizardLoader {
-    private final WizardManager wizardManager;
+public class DefaultWizardLoader extends WizardLoader {
     private final ConfigurationManager configManager;
     private final ViewFrame viewFrame;
-    private final Player player;
 
     public DefaultWizardLoader(WizardManager wizardManager, ConfigurationManager configManager, ViewFrame viewFrame, Player player) {
-        this.wizardManager = wizardManager;
+        super(wizardManager, player);
         this.configManager = configManager;
         this.viewFrame = viewFrame;
-        this.player = player;
     }
 
     @Override
     public void load() {
         final Inventory inventory = player.getInventory();
         inventory.clear();
+
         final List<WizardSelector<? extends WizardContext>> wizardSelectors = List.of(
                 createGeneratorWizardSelector(Material.DIAMOND_BLOCK, ChatColor.AQUA + "Set Diamond Generator", GeneratorType.DIAMOND),
                 createGeneratorWizardSelector(Material.EMERALD_BLOCK, ChatColor.GREEN + "Set Emerald Generator", GeneratorType.EMERALD),
-                createSelectIslandWizardSelector(Material.STICK, ChatColor.GREEN + "Select Island")
+                createSelectIslandWizardSelector(Material.STICK, ChatColor.GREEN + "Select Island"),
+                createExitWizardSelector()
         );
 
         for (WizardSelector<? extends WizardContext> wizardSelector : wizardSelectors) {
@@ -46,13 +46,17 @@ public class DefaultWizardLoader implements WizardLoader {
 
     private GeneratorWizardSelector createGeneratorWizardSelector(Material material, String displayName, GeneratorType generatorType) {
         GeneratorWizardSelector selector = new GeneratorWizardSelector(material, displayName, generatorType, configManager);
-        wizardManager.register(selector, selector.getCallback());
-        return selector;
+        return registerSelector(selector);
     }
 
     private SelectIslandWizardSelector createSelectIslandWizardSelector(Material material, String displayName) {
-        SelectIslandWizardSelector selector = new SelectIslandWizardSelector(wizardManager, configManager, material, displayName, viewFrame);
+        SelectIslandWizardSelector selector = new SelectIslandWizardSelector(wizardManager, configManager, this, material, displayName, viewFrame);
+        return registerSelector(selector);
+    }
+
+    private ExitWizardSelector createExitWizardSelector() {
+        ExitWizardSelector selector = new ExitWizardSelector(Material.BARRIER, ChatColor.GREEN + "Exit Wizard", this);
         wizardManager.register(selector, selector.getCallback());
-        return selector;
+        return registerSelector(selector);
     }
 }

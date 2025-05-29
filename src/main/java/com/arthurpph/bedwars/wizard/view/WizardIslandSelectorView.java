@@ -1,4 +1,4 @@
-package com.arthurpph.bedwars.view;
+package com.arthurpph.bedwars.wizard.view;
 
 import com.arthurpph.bedwars.config.ConfigurationManager;
 import com.arthurpph.bedwars.team.TeamColor;
@@ -20,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 public class WizardIslandSelectorView extends View {
     State<WizardManager> wizardManager = initialState("wizardManager");
     State<ConfigurationManager> configManager = initialState("configManager");
+    State<Runnable> onTeamClick = initialState("onTeamClick");
 
     @Override
     public void onInit(@NotNull ViewConfigBuilder config) {
@@ -65,6 +66,10 @@ public class WizardIslandSelectorView extends View {
             click.closeForPlayer();
             return;
         }
+
+        Runnable onTeamClickState = onTeamClick.get(click);
+        if(onTeamClickState != null)
+            onTeamClickState.run();
 
         new IslandWizardLoader(wizardManager.get(click), configManager.get(click), getFramework(), teamColor, player).load();
         click.closeForPlayer();

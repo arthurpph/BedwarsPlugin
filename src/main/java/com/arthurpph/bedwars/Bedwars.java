@@ -6,7 +6,7 @@ import com.arthurpph.bedwars.game.GameManager;
 import com.arthurpph.bedwars.listener.BlockBreakListener;
 import com.arthurpph.bedwars.listener.BlockPlaceListener;
 import com.arthurpph.bedwars.listener.PlayerInteractListener;
-import com.arthurpph.bedwars.view.WizardIslandSelectorView;
+import com.arthurpph.bedwars.wizard.view.WizardIslandSelectorView;
 import com.arthurpph.bedwars.wizard.WizardManager;
 import me.devnatan.inventoryframework.ViewFrame;
 import me.saiintbrisson.bukkit.command.BukkitFrame;
