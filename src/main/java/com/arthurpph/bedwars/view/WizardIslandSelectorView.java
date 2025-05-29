@@ -1,18 +1,26 @@
 package com.arthurpph.bedwars.view;
 
+import com.arthurpph.bedwars.config.ConfigurationManager;
 import com.arthurpph.bedwars.team.TeamColor;
 import com.arthurpph.bedwars.util.ItemStackUtils;
+import com.arthurpph.bedwars.wizard.WizardManager;
+import com.arthurpph.bedwars.wizard.loader.impl.IslandWizardLoader;
 import me.devnatan.inventoryframework.View;
 import me.devnatan.inventoryframework.ViewConfigBuilder;
 import me.devnatan.inventoryframework.ViewType;
 import me.devnatan.inventoryframework.context.RenderContext;
 import me.devnatan.inventoryframework.context.SlotClickContext;
+import me.devnatan.inventoryframework.state.State;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public class WizardIslandSelectorView extends View {
+    State<WizardManager> wizardManager = initialState("wizardManager");
+    State<ConfigurationManager> configManager = initialState("configManager");
+
     @Override
     public void onInit(@NotNull ViewConfigBuilder config) {
         config.type(ViewType.CHEST);
@@ -47,17 +55,18 @@ public class WizardIslandSelectorView extends View {
     public void onClick(@NotNull SlotClickContext click) {
         if(click.isOnEntityContainer()) return;
 
+        final Player player = click.getPlayer();
         final ItemStack itemStack = click.getItem();
         if(itemStack == null) return;
-        TeamColor color;
+        TeamColor teamColor;
         try {
-            color = TeamColor.fromWoolMaterial(itemStack.getType());
+            teamColor = TeamColor.fromWoolMaterial(itemStack.getType());
         } catch (IllegalArgumentException e) {
             click.closeForPlayer();
             return;
         }
 
-        click.getPlayer().sendMessage(color.name());
+        new IslandWizardLoader(wizardManager.get(click), configManager.get(click), getFramework(), teamColor, player).load();
         click.closeForPlayer();
     }
 }

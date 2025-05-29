@@ -34,6 +34,13 @@ public class ConfigurationManager {
         plugin.saveConfig();
     }
 
+    public void setIslandLocation(TeamColor color, String path, Location location) {
+        setupSection(mapSection, color.name());
+        final ConfigurationSection islandSection = mapSection.getConfigurationSection(color.name());
+        saveLocation(islandSection, path, location);
+        plugin.saveConfig();
+    }
+
     private void saveLocation(ConfigurationSection section, String path, Location location) {
         section.set(path + ".x", location.getX());
         section.set(path + ".y", location.getY());
@@ -42,7 +49,7 @@ public class ConfigurationManager {
         section.set(path + ".pitch", location.getPitch());
     }
 
-    private void setupSection(ConfigurationSection section, String path) {
+    public void setupSection(ConfigurationSection section, String path) {
         if(!section.isConfigurationSection(path)) {
             section.createSection(path);
         }

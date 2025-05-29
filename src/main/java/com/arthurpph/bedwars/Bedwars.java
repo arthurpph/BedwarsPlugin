@@ -4,6 +4,7 @@ import com.arthurpph.bedwars.command.BedwarsCommand;
 import com.arthurpph.bedwars.config.ConfigurationManager;
 import com.arthurpph.bedwars.game.GameManager;
 import com.arthurpph.bedwars.listener.BlockBreakListener;
+import com.arthurpph.bedwars.listener.BlockPlaceListener;
 import com.arthurpph.bedwars.listener.PlayerInteractListener;
 import com.arthurpph.bedwars.view.WizardIslandSelectorView;
 import com.arthurpph.bedwars.wizard.WizardManager;
@@ -42,6 +43,7 @@ public final class Bedwars extends JavaPlugin {
         PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents(new PlayerInteractListener(wizardManager), this);
         pm.registerEvents(new BlockBreakListener(), this);
+        pm.registerEvents(new BlockPlaceListener(), this);
     }
 
     private void registerCommands() {

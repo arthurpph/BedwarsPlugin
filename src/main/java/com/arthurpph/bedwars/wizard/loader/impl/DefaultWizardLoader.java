@@ -51,7 +51,7 @@ public class DefaultWizardLoader implements WizardLoader {
     }
 
     private SelectIslandWizardSelector createSelectIslandWizardSelector(Material material, String displayName) {
-        SelectIslandWizardSelector selector = new SelectIslandWizardSelector(material, displayName, viewFrame);
+        SelectIslandWizardSelector selector = new SelectIslandWizardSelector(wizardManager, configManager, material, displayName, viewFrame);
         wizardManager.register(selector, selector.getCallback());
         return selector;
     }
