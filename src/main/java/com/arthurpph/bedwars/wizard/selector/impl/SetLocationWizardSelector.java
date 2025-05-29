@@ -1,7 +1,7 @@
 package com.arthurpph.bedwars.wizard.selector.impl;
 
 import com.arthurpph.bedwars.config.ConfigurationManager;
-import com.arthurpph.bedwars.team.TeamColor;
+import com.arthurpph.bedwars.game.team.TeamColor;
 import com.arthurpph.bedwars.wizard.context.WizardContext;
 import com.arthurpph.bedwars.wizard.selector.WizardSelector;
 import org.bukkit.ChatColor;

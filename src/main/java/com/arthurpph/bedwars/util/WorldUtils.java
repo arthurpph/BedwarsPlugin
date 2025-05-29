@@ -6,7 +6,7 @@ import org.bukkit.World;
 import org.bukkit.WorldCreator;
 
 public final class WorldUtils {
-    public static GameWorld createGameWorld(String sourceWorldName) {
+    public static World createGameWorld(String sourceWorldName) {
 //        String targetWorldName = sourceWorldName + System.currentTimeMillis();
 //
 //        try {
@@ -17,8 +17,7 @@ public final class WorldUtils {
 //        }
 
         WorldCreator creator = new WorldCreator(sourceWorldName);
-        World world = Bukkit.createWorld(creator);
-        return new GameWorld(world);
+        return Bukkit.createWorld(creator);
     }
 
 //    public static void loadWorldFromSubfolder(String subfolder, String sourceWorldName, String targetWorldName) throws IOException {

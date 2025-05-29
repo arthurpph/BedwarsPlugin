@@ -1,6 +1,6 @@
 package com.arthurpph.bedwars.wizard.context.impl;
 
-import com.arthurpph.bedwars.generator.GeneratorType;
+import com.arthurpph.bedwars.game.generator.GeneratorType;
 import com.arthurpph.bedwars.wizard.context.WizardContext;
 import org.bukkit.entity.Player;
 

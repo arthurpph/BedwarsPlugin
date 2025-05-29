@@ -1,4 +1,4 @@
-package com.arthurpph.bedwars.generator;
+package com.arthurpph.bedwars.game.generator;
 
 public enum GeneratorType {
     EMERALD, DIAMOND

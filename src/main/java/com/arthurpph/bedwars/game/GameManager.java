@@ -1,30 +1,52 @@
 package com.arthurpph.bedwars.game;
 
 import com.arthurpph.bedwars.Bedwars;
+import com.arthurpph.bedwars.config.ConfigurationManager;
 import com.arthurpph.bedwars.game.state.GameState;
 import com.arthurpph.bedwars.util.WorldUtils;
+import com.arthurpph.bedwars.wizard.WizardManager;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
 public class GameManager {
     private final Bedwars plugin;
+    private final WizardManager wizardManager;
+    private final ConfigurationManager configManager;
     private final Map<UUID, Game> games;
 
-    public GameManager(Bedwars plugin) {
+    public GameManager(Bedwars plugin, WizardManager wizardManager, ConfigurationManager configManager) {
         this.plugin = plugin;
+        this.wizardManager = wizardManager;
+        this.configManager = configManager;
         this.games = new HashMap<>();
     }
 
     public Game createNewGame(String worldName) {
-        final GameWorld gameWorld = WorldUtils.createGameWorld(worldName);
-        final Game newGame = new Game(plugin, gameWorld);
-        games.put(newGame.getUniqueId(), newGame);
-        return newGame;
+        try {
+            final GameWorld gameWorld = new GameWorld(WorldUtils.createGameWorld(worldName), configManager);
+            final Game newGame = new Game(plugin, gameWorld);
+            games.put(newGame.getUniqueId(), newGame);
+            return newGame;
+        } catch (IllegalStateException e ) {
+            plugin.getLogger().severe("Failed to create game: " + e.getMessage());
+            return null;
+        }
     }
 
     public void addPlayer(UUID gameId, Player player) {
-        getGame(gameId).ifPresent(game -> game.addPlayer(player.getUniqueId()));
+        final Inventory inventory = player.getInventory();
+        for(ItemStack item : inventory.getContents()) {
+            wizardManager.unregister(item);
+        }
+        inventory.clear();
+
+        getGame(gameId).ifPresent(game -> {
+            game.addPlayer(player.getUniqueId());
+            player.teleport(game.getGameWorld().getWorld().getSpawnLocation());
+        });
     }
 
     public boolean isPlayerInGame(Player player) {

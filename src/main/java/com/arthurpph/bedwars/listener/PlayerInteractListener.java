@@ -2,7 +2,7 @@ package com.arthurpph.bedwars.listener;
 
 import com.arthurpph.bedwars.wizard.context.WizardContext;
 import com.arthurpph.bedwars.wizard.WizardManager;
-import com.arthurpph.bedwars.generator.GeneratorType;
+import com.arthurpph.bedwars.game.generator.GeneratorType;
 import com.arthurpph.bedwars.wizard.context.impl.GeneratorWizardContext;
 import com.saicone.rtag.RtagItem;
 import org.bukkit.entity.Player;

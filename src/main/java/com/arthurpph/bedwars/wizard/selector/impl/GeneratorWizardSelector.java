@@ -1,10 +1,10 @@
 package com.arthurpph.bedwars.wizard.selector.impl;
 
 import com.arthurpph.bedwars.config.ConfigurationManager;
-import com.arthurpph.bedwars.generator.Generator;
+import com.arthurpph.bedwars.game.generator.Generator;
 import com.arthurpph.bedwars.wizard.context.impl.GeneratorWizardContext;
 import com.arthurpph.bedwars.wizard.selector.WizardSelector;
-import com.arthurpph.bedwars.generator.GeneratorType;
+import com.arthurpph.bedwars.game.generator.GeneratorType;
 import com.saicone.rtag.RtagItem;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;

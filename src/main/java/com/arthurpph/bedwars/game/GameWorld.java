@@ -1,15 +1,55 @@
 package com.arthurpph.bedwars.game;
 
+import com.arthurpph.bedwars.config.ConfigurationManager;
+import com.arthurpph.bedwars.game.island.Island;
+import com.arthurpph.bedwars.game.team.TeamColor;
+import org.bukkit.Location;
 import org.bukkit.World;
 
-public class GameWorld {
-    private final World world;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
-    public GameWorld(World world) {
+public class GameWorld {
+    private final ConfigurationManager configManager;
+    private final World world;
+    private final Set<Island> islands;
+
+    public GameWorld(World world, ConfigurationManager configManager) {
+        this.configManager = configManager;
         this.world = world;
+        this.islands = new HashSet<>();
+        loadIslands();
     }
 
     public World getWorld() {
         return world;
+    }
+
+    public Set<Island> getIslands() {
+        return islands;
+    }
+
+    private void loadIslands() {
+        for(TeamColor color : TeamColor.values()) {
+            Map<String, Location> config;
+            try {
+                config = configManager.getIslandsConfig(color);
+            } catch (IllegalArgumentException e) {
+                throw new IllegalStateException("Island configuration for " + color.name() + " is missing or invalid.", e);
+            }
+
+            Island island = new Island(
+                    config.get("firstCornerLocation"),
+                    config.get("secondCornerLocation"),
+                    config.get("bedLocation"),
+                    config.get("spawnLocation"),
+                    config.get("teamUpgradeLocation"),
+                    config.get("generatorLocation"),
+                    config.get("shopLocation"),
+                    color
+            );
+            islands.add(island);
+        }
     }
 }

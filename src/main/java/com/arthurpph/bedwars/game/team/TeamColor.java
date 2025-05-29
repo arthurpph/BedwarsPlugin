@@ -1,4 +1,4 @@
-package com.arthurpph.bedwars.team;
+package com.arthurpph.bedwars.game.team;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

@@ -5,7 +5,7 @@ import com.arthurpph.bedwars.wizard.context.WizardContext;
 import com.arthurpph.bedwars.wizard.loader.WizardLoader;
 import com.arthurpph.bedwars.wizard.WizardManager;
 import com.arthurpph.bedwars.wizard.selector.WizardSelector;
-import com.arthurpph.bedwars.generator.GeneratorType;
+import com.arthurpph.bedwars.game.generator.GeneratorType;
 import com.arthurpph.bedwars.wizard.selector.impl.ExitWizardSelector;
 import com.arthurpph.bedwars.wizard.selector.impl.GeneratorWizardSelector;
 import com.arthurpph.bedwars.wizard.selector.impl.SelectIslandWizardSelector;
@@ -55,7 +55,7 @@ public class DefaultWizardLoader extends WizardLoader {
     }
 
     private ExitWizardSelector createExitWizardSelector() {
-        ExitWizardSelector selector = new ExitWizardSelector(Material.BARRIER, ChatColor.GREEN + "Exit Wizard", this);
+        ExitWizardSelector selector = new ExitWizardSelector(Material.BARRIER, ChatColor.GREEN + "Exit Wizard", this, () -> player.sendMessage(ChatColor.GREEN + "Exit wizard..."));
         wizardManager.register(selector, selector.getCallback());
         return registerSelector(selector);
     }

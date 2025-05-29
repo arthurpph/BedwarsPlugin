@@ -23,8 +23,6 @@ public class WizardManager {
         try {
             consumer.accept(context);
         } catch (ClassCastException ignored) {}
-
-        System.out.println(callbacks.size());
     }
 
     @SuppressWarnings("unchecked")

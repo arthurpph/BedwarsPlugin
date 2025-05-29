@@ -1,7 +1,7 @@
 package com.arthurpph.bedwars.wizard.view;
 
 import com.arthurpph.bedwars.config.ConfigurationManager;
-import com.arthurpph.bedwars.team.TeamColor;
+import com.arthurpph.bedwars.game.team.TeamColor;
 import com.arthurpph.bedwars.util.ItemStackUtils;
 import com.arthurpph.bedwars.wizard.WizardManager;
 import com.arthurpph.bedwars.wizard.loader.impl.IslandWizardLoader;

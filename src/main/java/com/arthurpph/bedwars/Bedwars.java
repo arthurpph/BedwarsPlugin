@@ -6,6 +6,7 @@ import com.arthurpph.bedwars.game.GameManager;
 import com.arthurpph.bedwars.listener.BlockBreakListener;
 import com.arthurpph.bedwars.listener.BlockPlaceListener;
 import com.arthurpph.bedwars.listener.PlayerInteractListener;
+import com.arthurpph.bedwars.listener.PlayerQuitListener;
 import com.arthurpph.bedwars.wizard.view.WizardIslandSelectorView;
 import com.arthurpph.bedwars.wizard.WizardManager;
 import me.devnatan.inventoryframework.ViewFrame;
@@ -34,9 +35,9 @@ public final class Bedwars extends JavaPlugin {
     public void onDisable() {}
 
     private void createManagers() {
-        gameManager = new GameManager(this);
-        wizardManager = new WizardManager();
         configManager = new ConfigurationManager(this, "bedwarsone");
+        wizardManager = new WizardManager();
+        gameManager = new GameManager(this, wizardManager, configManager);
     }
 
     private void registerEvents() {
@@ -44,6 +45,7 @@ public final class Bedwars extends JavaPlugin {
         pm.registerEvents(new PlayerInteractListener(wizardManager), this);
         pm.registerEvents(new BlockBreakListener(), this);
         pm.registerEvents(new BlockPlaceListener(), this);
+        pm.registerEvents(new PlayerQuitListener(), this);
     }
 
     private void registerCommands() {

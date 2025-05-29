@@ -38,9 +38,11 @@ public class BedwarsCommand {
     public void handleCommand(Context<Player> context) {
         final Player player = context.getSender();
         final Game newGame = gameManager.createNewGame("bedwarsone");
+        if(newGame == null) {
+            player.sendMessage(ChatColor.RED + "Failed to create a new bedwars game. Please check the console logs for more details.");
+            return;
+        }
         gameManager.addPlayer(newGame.getUniqueId(), player);
-        player.teleport(newGame.getGameWorld().getWorld().getSpawnLocation());
-        new DefaultWizardLoader(wizardManager, configManager, viewFrame, player).load();
     }
 
     @Command(
@@ -62,5 +64,15 @@ public class BedwarsCommand {
         }
         gameManager.moveToNextState(StartingGameState.class, player);
         context.sendMessage(ChatColor.GREEN + "Bedwars started!");
+    }
+
+    @Command(
+            name = "bedwars.wizard",
+            description = "Open the bedwars wizard",
+            target = CommandTarget.PLAYER
+    )
+    public void handleCommandWizard(Context<Player> context) {
+        final Player player = context.getSender();
+        new DefaultWizardLoader(wizardManager, configManager, viewFrame, player).load();
     }
 }
