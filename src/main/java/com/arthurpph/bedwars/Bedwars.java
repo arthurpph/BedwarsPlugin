@@ -3,10 +3,7 @@ package com.arthurpph.bedwars;
 import com.arthurpph.bedwars.command.BedwarsCommand;
 import com.arthurpph.bedwars.config.ConfigurationManager;
 import com.arthurpph.bedwars.game.GameManager;
-import com.arthurpph.bedwars.listener.BlockBreakListener;
-import com.arthurpph.bedwars.listener.BlockPlaceListener;
-import com.arthurpph.bedwars.listener.PlayerInteractListener;
-import com.arthurpph.bedwars.listener.PlayerQuitListener;
+import com.arthurpph.bedwars.listener.*;
 import com.arthurpph.bedwars.wizard.view.WizardIslandSelectorView;
 import com.arthurpph.bedwars.wizard.WizardManager;
 import me.devnatan.inventoryframework.ViewFrame;
@@ -46,18 +43,19 @@ public final class Bedwars extends JavaPlugin {
         pm.registerEvents(new BlockBreakListener(), this);
         pm.registerEvents(new BlockPlaceListener(), this);
         pm.registerEvents(new PlayerQuitListener(), this);
+        pm.registerEvents(new ProjectileLaunchListener(), this);
     }
 
     private void registerCommands() {
         BukkitFrame frame = new BukkitFrame(this);
         frame.registerCommands(
-            new BedwarsCommand(gameManager, wizardManager, configManager, viewFrame)
+            new BedwarsCommand(this, gameManager, wizardManager, configManager, viewFrame)
         );
     }
 
     private void registerViews() {
         viewFrame = ViewFrame.create(this)
-            .with(new WizardIslandSelectorView())
+            .with(new WizardIslandSelectorView(this, wizardManager, configManager))
             .register();
     }
 }

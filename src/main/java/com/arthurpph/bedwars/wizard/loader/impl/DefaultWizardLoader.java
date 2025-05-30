@@ -1,5 +1,6 @@
 package com.arthurpph.bedwars.wizard.loader.impl;
 
+import com.arthurpph.bedwars.Bedwars;
 import com.arthurpph.bedwars.config.ConfigurationManager;
 import com.arthurpph.bedwars.wizard.context.WizardContext;
 import com.arthurpph.bedwars.wizard.loader.WizardLoader;
@@ -18,11 +19,13 @@ import org.bukkit.inventory.Inventory;
 import java.util.List;
 
 public class DefaultWizardLoader extends WizardLoader {
+    private final Bedwars plugin;
     private final ConfigurationManager configManager;
     private final ViewFrame viewFrame;
 
-    public DefaultWizardLoader(WizardManager wizardManager, ConfigurationManager configManager, ViewFrame viewFrame, Player player) {
+    public DefaultWizardLoader(Bedwars plugin, WizardManager wizardManager, ConfigurationManager configManager, ViewFrame viewFrame, Player player) {
         super(wizardManager, player);
+        this.plugin = plugin;
         this.configManager = configManager;
         this.viewFrame = viewFrame;
     }
@@ -45,7 +48,7 @@ public class DefaultWizardLoader extends WizardLoader {
     }
 
     private GeneratorWizardSelector createGeneratorWizardSelector(Material material, String displayName, GeneratorType generatorType) {
-        GeneratorWizardSelector selector = new GeneratorWizardSelector(material, displayName, generatorType, configManager);
+        GeneratorWizardSelector selector = new GeneratorWizardSelector(plugin, material, displayName, generatorType, configManager);
         return registerSelector(selector);
     }
 

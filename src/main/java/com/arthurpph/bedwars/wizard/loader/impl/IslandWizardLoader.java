@@ -1,5 +1,6 @@
 package com.arthurpph.bedwars.wizard.loader.impl;
 
+import com.arthurpph.bedwars.Bedwars;
 import com.arthurpph.bedwars.config.ConfigurationManager;
 import com.arthurpph.bedwars.game.team.TeamColor;
 import com.arthurpph.bedwars.wizard.WizardManager;
@@ -18,12 +19,14 @@ import org.bukkit.inventory.Inventory;
 import java.util.List;
 
 public class IslandWizardLoader extends WizardLoader {
+    private final Bedwars plugin;
     private final ConfigurationManager configManager;
     private final ViewFrame viewFrame;
     private final TeamColor teamColor;
 
-    public IslandWizardLoader(WizardManager wizardManager, ConfigurationManager configManager, ViewFrame viewFrame, TeamColor teamColor, Player player) {
+    public IslandWizardLoader(Bedwars plugin, WizardManager wizardManager, ConfigurationManager configManager, ViewFrame viewFrame, TeamColor teamColor, Player player) {
         super(wizardManager, player);
+        this.plugin = plugin;
         this.configManager = configManager;
         this.viewFrame = viewFrame;
         this.teamColor = teamColor;
@@ -62,7 +65,7 @@ public class IslandWizardLoader extends WizardLoader {
     }
 
     private ExitWizardSelector createExitWizardSelector() {
-        ExitWizardSelector selector = new ExitWizardSelector(Material.BARRIER, ChatColor.RED + "Exit Wizard", this, () -> new DefaultWizardLoader(wizardManager, configManager, viewFrame, player).load());
+        ExitWizardSelector selector = new ExitWizardSelector(Material.BARRIER, ChatColor.RED + "Exit Wizard", this, () -> new DefaultWizardLoader(plugin, wizardManager, configManager, viewFrame, player).load());
         return registerSelector(selector);
     }
 }

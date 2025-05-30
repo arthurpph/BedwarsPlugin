@@ -11,7 +11,7 @@ import java.util.UUID;
 public class Game {
     private final UUID id;
     private final GameWorld gameWorld;
-    private final List<UUID> players;
+    private final List<GamePlayer> players;
     private GameState state;
 
     public Game(Bedwars plugin, GameWorld gameWorld) {
@@ -30,7 +30,7 @@ public class Game {
         return gameWorld;
     }
 
-    public List<UUID> getPlayers() {
+    public List<GamePlayer> getPlayers() {
         return players;
     }
 
@@ -44,7 +44,13 @@ public class Game {
         state.onEnable();
     }
 
-    public void addPlayer(UUID id) {
-        players.add(id);
+    public void addPlayer(GamePlayer gamePlayer) {
+        players.add(gamePlayer);
+    }
+
+    public void stop() {
+        gameWorld.getWorld().getPlayers().forEach(player -> player.kickPlayer("The game has been stopped."));
+        state.onDisable();
+        players.clear();
     }
 }

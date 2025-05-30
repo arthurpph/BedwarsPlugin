@@ -1,5 +1,6 @@
 package com.arthurpph.bedwars.wizard.view;
 
+import com.arthurpph.bedwars.Bedwars;
 import com.arthurpph.bedwars.config.ConfigurationManager;
 import com.arthurpph.bedwars.game.team.TeamColor;
 import com.arthurpph.bedwars.util.ItemStackUtils;
@@ -18,9 +19,19 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public class WizardIslandSelectorView extends View {
-    State<WizardManager> wizardManager = initialState("wizardManager");
-    State<ConfigurationManager> configManager = initialState("configManager");
-    State<Runnable> onTeamClick = initialState("onTeamClick");
+    private final Bedwars plugin;
+    private final WizardManager wizardManager;
+    private final ConfigurationManager configManager;
+//    State<Bedwars> plugin = initialState("plugin");
+//    State<WizardManager> wizardManager = initialState("wizardManager");
+//    State<ConfigurationManager> configManager = initialState("configManager");
+    private State<Runnable> onTeamClick = initialState("onTeamClick");
+
+    public WizardIslandSelectorView(Bedwars plugin, WizardManager wizardManager, ConfigurationManager configManager) {
+        this.plugin = plugin;
+        this.wizardManager = wizardManager;
+        this.configManager = configManager;
+    }
 
     @Override
     public void onInit(@NotNull ViewConfigBuilder config) {
@@ -71,7 +82,7 @@ public class WizardIslandSelectorView extends View {
         if(onTeamClickState != null)
             onTeamClickState.run();
 
-        new IslandWizardLoader(wizardManager.get(click), configManager.get(click), getFramework(), teamColor, player).load();
+        new IslandWizardLoader(plugin, wizardManager, configManager, getFramework(), teamColor, player).load();
         click.closeForPlayer();
     }
 }

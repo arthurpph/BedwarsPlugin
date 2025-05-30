@@ -1,6 +1,7 @@
 package com.arthurpph.bedwars.game;
 
 import com.arthurpph.bedwars.config.ConfigurationManager;
+import com.arthurpph.bedwars.game.generator.Generator;
 import com.arthurpph.bedwars.game.island.Island;
 import com.arthurpph.bedwars.game.team.TeamColor;
 import org.bukkit.Location;
@@ -14,12 +15,15 @@ public class GameWorld {
     private final ConfigurationManager configManager;
     private final World world;
     private final Set<Island> islands;
+    private final Set<Generator> generators;
 
     public GameWorld(World world, ConfigurationManager configManager) {
         this.configManager = configManager;
         this.world = world;
         this.islands = new HashSet<>();
+        this.generators = new HashSet<>();
         loadIslands();
+        loadGenerators();
     }
 
     public World getWorld() {
@@ -28,6 +32,14 @@ public class GameWorld {
 
     public Set<Island> getIslands() {
         return islands;
+    }
+
+    public Set<Generator> getGenerators() {
+        return generators;
+    }
+
+    public Island getIslandByPlayer(GamePlayer gamePlayer) {
+        return islands.stream().filter(island -> island.teamColor() == gamePlayer.getTeamColor()).findFirst().orElse(null);
     }
 
     private void loadIslands() {
@@ -51,5 +63,9 @@ public class GameWorld {
             );
             islands.add(island);
         }
+    }
+
+    private void loadGenerators() {
+        generators.addAll(configManager.getGenerators());
     }
 }

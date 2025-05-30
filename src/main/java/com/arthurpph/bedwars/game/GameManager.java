@@ -36,6 +36,15 @@ public class GameManager {
         }
     }
 
+    public void stopGame(Player player) {
+        final Game game = getGame(player).orElse(null);
+        if(game == null) return;
+
+        game.stop();
+        games.remove(game.getUniqueId());
+        plugin.getLogger().info("Game with ID " + game.getUniqueId() + " has been stopped.");
+    }
+
     public void addPlayer(UUID gameId, Player player) {
         final Inventory inventory = player.getInventory();
         for(ItemStack item : inventory.getContents()) {
@@ -44,13 +53,13 @@ public class GameManager {
         inventory.clear();
 
         getGame(gameId).ifPresent(game -> {
-            game.addPlayer(player.getUniqueId());
+            game.addPlayer(new GamePlayer(player.getUniqueId()));
             player.teleport(game.getGameWorld().getWorld().getSpawnLocation());
         });
     }
 
     public boolean isPlayerInGame(Player player) {
-        return getGame(player.getUniqueId()).isPresent();
+        return getGame(player).isPresent();
     }
 
     public void moveToNextState(Class<? extends GameState> exceptedState, Player player) {
@@ -69,7 +78,8 @@ public class GameManager {
     private Optional<Game> getGame(Player player) {
         final UUID uniqueId = player.getUniqueId();
         return games.values().stream()
-                .filter(game -> game.getPlayers().contains(uniqueId))
+                .filter(game -> game.getPlayers().stream()
+                        .anyMatch(gamePlayer -> gamePlayer.getUuid().equals(uniqueId)))
                 .findFirst();
     }
 

@@ -2,16 +2,14 @@ package com.arthurpph.bedwars.config;
 
 import com.arthurpph.bedwars.Bedwars;
 import com.arthurpph.bedwars.game.generator.Generator;
+import com.arthurpph.bedwars.game.generator.GeneratorType;
 import com.arthurpph.bedwars.game.team.TeamColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public final class ConfigurationManager {
     private static final List<String> ISLAND_CONFIGURATION_PATHS = List.of(
@@ -43,8 +41,8 @@ public final class ConfigurationManager {
         final ConfigurationSection generatorsSection = mapSection.getConfigurationSection("generators");
         final String generatorId = UUID.randomUUID().toString();
         final ConfigurationSection generatorSection = generatorsSection.createSection(generatorId);
-        generatorSection.set("type", generator.generatorType().toString());
-        saveLocation(generatorSection, "location", generator.location());
+        generatorSection.set("type", generator.getGeneratorType().toString());
+        saveLocation(generatorSection, "location", generator.getLocation());
         plugin.saveConfig();
     }
 
@@ -53,6 +51,22 @@ public final class ConfigurationManager {
         final ConfigurationSection islandSection = mapSection.getConfigurationSection(color.name());
         saveLocation(islandSection, path, location);
         plugin.saveConfig();
+    }
+
+    public List<Generator> getGenerators() {
+        List<Generator> generators = new ArrayList<>();
+        final ConfigurationSection generatorsSection = mapSection.getConfigurationSection("generators");
+        if(generatorsSection == null) return generators;
+
+        for(String key : generatorsSection.getKeys(false)) {
+            final ConfigurationSection section = generatorsSection.getConfigurationSection(key);
+            if(section == null) continue;
+            final String typeName = section.getString("type");
+            final GeneratorType type = GeneratorType.valueOf(typeName);
+            final Location location = getLocation(section, "location");
+            generators.add(new Generator(plugin, type, location));
+        }
+        return generators;
     }
 
     public Map<String, Location> getIslandsConfig(TeamColor color) throws IllegalArgumentException {

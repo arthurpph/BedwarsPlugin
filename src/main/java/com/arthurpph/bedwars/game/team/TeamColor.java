@@ -5,13 +5,13 @@ import org.bukkit.Material;
 
 public enum TeamColor {
     RED(Material.RED_WOOL, ChatColor.RED, "Red"),
-    BLUE(Material.BLUE_WOOL, ChatColor.BLUE, "Blue"),
-    GREEN(Material.GREEN_WOOL, ChatColor.GREEN, "Green"),
-    YELLOW(Material.YELLOW_WOOL, ChatColor.YELLOW, "Yellow"),
-    AQUA(Material.CYAN_WOOL, ChatColor.AQUA, "Aqua"),
-    GRAY(Material.GRAY_WOOL, ChatColor.GRAY, "Gray"),
-    WHITE(Material.WHITE_WOOL, ChatColor.WHITE, "White"),
-    PINK(Material.PINK_WOOL, ChatColor.LIGHT_PURPLE, "Pink"),;
+    BLUE(Material.BLUE_WOOL, ChatColor.BLUE, "Blue"),;
+//    GREEN(Material.GREEN_WOOL, ChatColor.GREEN, "Green"),
+//    YELLOW(Material.YELLOW_WOOL, ChatColor.YELLOW, "Yellow"),
+//    AQUA(Material.CYAN_WOOL, ChatColor.AQUA, "Aqua"),
+//    GRAY(Material.GRAY_WOOL, ChatColor.GRAY, "Gray"),
+//    WHITE(Material.WHITE_WOOL, ChatColor.WHITE, "White"),
+//    PINK(Material.PINK_WOOL, ChatColor.LIGHT_PURPLE, "Pink");
 
     private final Material woolMaterial;
     private final ChatColor chatColor;
